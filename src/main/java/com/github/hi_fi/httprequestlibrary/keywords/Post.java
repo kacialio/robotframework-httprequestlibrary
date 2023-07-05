@@ -36,7 +36,14 @@ public class Post {
 		if (Robot.isDictionary(dataList.toString())) {
 			dataList = (Map<String, Object>) Robot.parseRobotDictionary(dataList.toString());
 		}
+		long startTime = System.currentTimeMillis(); // Start measuring elapsed time
 		rc.makePostRequest(alias, uri, dataList, params, headers, files, allowRedirects);
-		return rc.getSession(alias).getResponseData();
+		long endTime = System.currentTimeMillis(); // Stop measuring elapsed time
+
+	        long elapsedTime = endTime - startTime; // Calculate elapsed time in milliseconds
+	
+	        ResponseData responseData = rc.getSession(alias).getResponseData();
+	        responseData.setElapsedTime(elapsedTime); // Set the elapsed time in the ResponseData object
+		return responseData;
 	}
 }
